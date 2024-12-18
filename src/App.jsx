@@ -1,34 +1,47 @@
-import './App.css'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import Layout from './Layout/Layout'
-import Home from './components/Header&Footer/Pages/Home'
-import Signup from './components/Header&Footer/Pages/User/Signup'
-import Login from './components/Header&Footer/Pages/User/Login'
-import { UserProvider } from './context/UserContext'
-import Dashboard from './components/Header&Footer/Pages/User/dashboard'
-import Report from './components/Header&Footer/Pages/User/Report'
-
+import "./App.css";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Layout from "./Layout/Layout";
+import Signup from "./components/login&Signup/Signup";
+import { RoleAuthProvider } from "./context/RoleAuth";
+import Dashboard from "./components/Pages/Dashboard";
+import Login from "./components/login&Signup/Login";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ReportNeed from "./components/Forms/ReportNeed";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/' element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path='/user/signup' element={<Signup />} />
-        <Route path='/user/login' element={<Login />} />
-        <Route path='/user/dashboard' element={<Dashboard />} />
-        <Route path='/user/report' element={<Report />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Signup />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route path="/user-report-need" element={<ReportNeed />}></Route>
       </Route>
     )
-  )
+  );
 
   return (
     <>
-    <UserProvider>
-    <RouterProvider router={router}/>
-    </UserProvider>
+      <RoleAuthProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </RoleAuthProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

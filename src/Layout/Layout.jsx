@@ -6,8 +6,7 @@ import Footer from '../components/Header&Footer/Footer';
 const Layout = () => {
   const location = useLocation();
 
-  // Define routes where the Header should be hidden
-  const noHeaderRoutes = ['/user/login', '/user/signup'];
+  const noHeaderRoutes = ['/', '/login'];
 
   return (
     <>
