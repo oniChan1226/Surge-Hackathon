@@ -2,16 +2,36 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useRoleAuth } from "../../context/RoleAuth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../Firebase/Firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const { updateRole } = useRoleAuth();
   
-  const onSubmit = (data) => {
-    console.log("Login data:", data);
-    updateRole("User");
-    navigate("/dashboard");
+  const onSubmit = async (data) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredentials.user;
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if(userDoc.exists()) {
+        const userData = userDoc.data();
+        toast.success(`Logged in as ${userData.role}`);
+        console.log("Login data:", data);
+        updateRole(userData.role);
+        navigate("/dashboard");
+      }
+      else {
+        toast.warn(`No Role info found against credentails`);
+      }
+    }
+    catch(err) {
+      toast.error(err);
+    }
   };
 
   return (

@@ -1,15 +1,24 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useRoleAuth } from "../../context/RoleAuth";
 import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/Firebase";
 
 const Header = () => {
   const { role, updateRole } = useRoleAuth();
 const navigate = useNavigate();
 
-  const logout = () => {
-    updateRole(null);
-    navigate("/");
-    toast.success("Logged out");
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      updateRole(null);
+      toast.success("Logged out");
+      navigate("/");
+    }
+    catch(err) {
+      toast.error(err);
+    }
+    
   }
   return (
     <header>

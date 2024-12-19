@@ -3,10 +3,18 @@ import { useForm } from "react-hook-form";
 import { roleConfigs } from "../RoleConfigs";
 import { useRoleAuth } from "../../context/RoleAuth";
 import { useNavigate, Link } from "react-router-dom";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../Firebase/Firebase";
+import { toast } from "react-toastify";
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [selectedRole, setSelectedRole] = useState("");
   const { updateRole } = useRoleAuth();
   const navigate = useNavigate();
@@ -18,11 +26,22 @@ const Signup = () => {
     reset();
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // idr say send data to backend
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredentials.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        role: selectedRole,
+      })
+      navigate("/dashboard");
+      toast.success("Welcome");
+    } catch (err) {
+      toast.error(err);
+    }
     console.log("Submitted data:", { role: selectedRole, ...data });
-    navigate("/dashboard");
-    // alert("Signup successful!");
   };
 
   const renderFormFields = () => {
@@ -34,22 +53,30 @@ const Signup = () => {
       let validationRules = {};
 
       if (field.type === "password") {
-        validationRules = { 
-          required: true, 
-          minLength: { value: 8, message: "Password must be at least 8 characters" } 
+        validationRules = {
+          required: true,
+          minLength: {
+            value: 8,
+            message: "Password must be at least 8 characters",
+          },
         };
       }
 
       if (field.type === "tel") {
         validationRules = {
           required: field.required,
-          pattern: { value: /^[0-9]{10}$/, message: "Phone number must be 10 digits" }
+          pattern: {
+            value: /^[0-9]{10}$/,
+            message: "Phone number must be 10 digits",
+          },
         };
       }
 
       return (
         <div key={index} className="mb-4">
-          <label className="block text-sm font-medium mb-1">{field.label}</label>
+          <label className="block text-sm font-medium mb-1">
+            {field.label}
+          </label>
           <input
             type={field.type}
             name={field.name}
@@ -58,7 +85,9 @@ const Signup = () => {
             className="w-full border rounded-lg p-2"
           />
           {errors[field.name] && (
-            <p className="text-red-500 text-sm">{errors[field.name].message || `${field.label} is required`}</p>
+            <p className="text-red-500 text-sm">
+              {errors[field.name].message || `${field.label} is required`}
+            </p>
           )}
         </div>
       );
@@ -68,7 +97,9 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Signup</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Signup
+        </h1>
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2">Select Role</label>
           <select
@@ -97,7 +128,15 @@ const Signup = () => {
             </button>
           )}
         </form>
-        <div className="py-2">Already registered? <Link to={"/login"} className="text-blue-600 font-bold hover:text-blue-500 hover:underline">Login</Link></div>
+        <div className="py-2">
+          Already registered?{" "}
+          <Link
+            to={"/login"}
+            className="text-blue-600 font-bold hover:text-blue-500 hover:underline"
+          >
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );
