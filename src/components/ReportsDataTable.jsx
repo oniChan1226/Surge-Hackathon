@@ -40,8 +40,8 @@ const ReportsDataTable = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Your Reports</h1>
-      <table className="min-w-full bg-white border border-gray-200 shadow-md rounded">
-        <thead>
+      <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-md">
+        <thead className="border-b-2 border-slate-500">
           <tr className="bg-gray-100 border-b">
             <th className="text-left p-3 font-medium">Type of Help</th>
             <th className="text-left p-3 font-medium">Description</th>

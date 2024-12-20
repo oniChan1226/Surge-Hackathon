@@ -30,21 +30,52 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     // idr say send data to backend
+    // console.log(selectedRole);
+
     try {
       const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      // console.log(userCredentials)
       const user = userCredentials.user;
 
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        role: selectedRole,
-      });
+      // console.log(selectedRole);
+
+      if(selectedRole === "User") {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          phone: data?.phone || "n/a",
+          role: selectedRole,
+        }) 
+      }
+      else if(selectedRole === "Admin") {
+        await setDoc(doc(db, "admin", user.uid), {
+          email: user.email,
+          role: selectedRole,
+        })
+      }
+      else if(selectedRole === "Organization") {
+        await setDoc(doc(db, "org", user.uid), {
+          email: user.email,
+          orgName: data?.organizationName,
+          contact: data?.contactDetails, 
+          role: selectedRole,
+        })
+      }
+      else {
+        await setDoc(doc(db, "relief", user.uid), {
+          email: user.email,
+          // idr sy check if invite code is correct
+          inviteCode: data?.organizationCode,
+          role: selectedRole,
+        })
+      }
+
       setUser({uid: user.uid, email: user.email})
+     console.log("Submitted data:", { role: selectedRole, ...data });
       navigate("/dashboard");
       toast.success("Welcome");
     } catch (err) {
       toast.error(err);
     }
-    console.log("Submitted data:", { role: selectedRole, ...data });
   };
 
   const renderFormFields = () => {
