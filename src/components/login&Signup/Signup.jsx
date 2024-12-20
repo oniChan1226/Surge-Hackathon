@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { roleConfigs } from "../RoleConfigs";
 import { useRoleAuth } from "../../context/RoleAuth";
+import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../Firebase/Firebase";
@@ -17,6 +18,7 @@ const Signup = () => {
   } = useForm();
   const [selectedRole, setSelectedRole] = useState("");
   const { updateRole } = useRoleAuth();
+  const { setUser } = useAuthContext();
   const navigate = useNavigate();
 
   const handleRoleChange = (event) => {
@@ -35,7 +37,8 @@ const Signup = () => {
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         role: selectedRole,
-      })
+      });
+      setUser({uid: user.uid, email: user.email})
       navigate("/dashboard");
       toast.success("Welcome");
     } catch (err) {
@@ -68,6 +71,16 @@ const Signup = () => {
           pattern: {
             value: /^[0-9]{10}$/,
             message: "Phone number must be 10 digits",
+          },
+        };
+      }
+
+      if (field.type === "email") {
+        validationRules = {
+          required: field.required,
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: "Please enter a valid email address",
           },
         };
       }

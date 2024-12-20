@@ -1,15 +1,13 @@
 import React from "react";
-import { useRoleAuth } from "../../context/RoleAuth";
-import DataTable from "../DataTable";
+import ReportsDataTable from "../ReportsDataTable";
 
 const Dashboard = () => {
-  const { role } = useRoleAuth();
   return (
     <div className="bg-slate-200 min-h-[80vh]">
-      <div className="text-xl md:text-4xl lg:text-6xl font-bold text-center pt-8 md:pt-32 tracking-wider">
+      <div className="text-xl md:text-3xl lg:text-5xl xl:text-7xl font-bold text-center pt-8 lg:pt-16 xl:pt-32 tracking-wider">
         Welcome!
       </div>
-      <DataTable />
+      <ReportsDataTable />
     </div>
   );
 };

@@ -6,13 +6,17 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../Firebase/Firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { updateRole } = useRoleAuth();
+  const {setUser} = useAuthContext();
   
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const userCredentials = await signInWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredentials.user;
@@ -23,6 +27,7 @@ const Login = () => {
         toast.success(`Logged in as ${userData.role}`);
         console.log("Login data:", data);
         updateRole(userData.role);
+        setUser({uid: user.uid, email: userData.email});
         navigate("/dashboard");
       }
       else {
@@ -32,6 +37,7 @@ const Login = () => {
     catch(err) {
       toast.error(err);
     }
+    setLoading(false);
   };
 
   return (
@@ -82,6 +88,7 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+            disabled = {loading}
           >
             Login
           </button>

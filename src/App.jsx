@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import ReportNeed from "./components/Forms/ReportNeed";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NotFound from "./components/Pages/NotFound";
+import {AuthContextProvider} from './context/AuthContext'
 
 function App() {
   const router = createBrowserRouter(
@@ -30,16 +32,19 @@ function App() {
           }
         ></Route>
         <Route path="/user-report-need" element={<ReportNeed />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Route>
     )
   );
 
   return (
     <>
+    <AuthContextProvider>
       <RoleAuthProvider>
         <RouterProvider router={router} />
         <ToastContainer />
       </RoleAuthProvider>
+    </AuthContextProvider>
     </>
   );
 }

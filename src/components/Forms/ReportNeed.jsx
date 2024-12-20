@@ -1,7 +1,10 @@
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { db } from "../../Firebase/Firebase";
+import { useAuthContext } from "../../context/AuthContext";
 
 const ReportNeed = () => {
   const {
@@ -12,10 +15,22 @@ const ReportNeed = () => {
   } = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext();
 
   const onSubmit = async (data) => {
     setLoading(true);
-    // api idr
+    // Post ki api
+    try {
+      console.log(user)
+      if(user) {
+        const reportsRef = collection(db, "users", user.uid, "reports");
+        await addDoc(reportsRef, {...data, status: "pending", timestamp: new Date(),});
+        console.log(reportsRef, ...data);
+      }
+    }
+    catch(err) {
+      toast.error(err);
+    }
     console.log("Report data:", data);
 
     toast.success("Your report has been submitted successfully!");
