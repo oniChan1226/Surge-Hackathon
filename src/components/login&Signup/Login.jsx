@@ -28,7 +28,7 @@ const Login = () => {
         const userData = userDoc.data();
         toast.success(`Logged in as ${userData.role}`);
         console.log("Login data:", data);
-        updateRole(userData.role);
+        updateRole(userData?.role);
         setUser({uid: user.uid, email: userData.email});
         navigate("/dashboard");
       }
