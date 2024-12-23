@@ -5,30 +5,30 @@ import { Play } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="h-[87.3vh] w-screen bg-gradient-to-r from-secondary to-primary-dark flex items-center justify-center text-white/90">
-      <div className="container mx-auto flex flex-col lg:flex-row items-center px-6 lg:px-20">
+    <section className="min-h-[87.3vh]  overflow-hidden bg-gradient-to-r from-secondary to-primary-dark flex items-center justify-center text-white/90">
+      <div className="container mx-auto flex flex-col lg:flex-row items-center px-6 lg:px-20 py-8">
         {/* Left Content */}
         <div className="text-center lg:text-left lg:w-1/2 space-y-6">
-          <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight">
             Disaster Relief <br />
             <span className="text-white/30">Management Made Easy</span>
           </h1>
-          <p className="text-lg lg:text-xl text-white/70">
+          <p className="text-base md:text-lg lg:text-xl text-white/70">
             Join our platform to streamline disaster relief efforts and make a
             difference in communities in need. Get started by signing up or
             learning more.
           </p>
-          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
+          <div className="flex lg:flex-row items-center justify-center lg:justify-start space-x-4">
             <Link
               to={"/signup"}
-              className="border border-white shadow-lg text-white font-semibold px-6 py-3 rounded-sm hover:bg-green-600 hover:border-green-600 hover:translate-x-1 transition duration-200 flex"
+              className="border border-white shadow-lg text-white font-semibold p-2 md:px-6 md:py-3 rounded-sm hover:bg-green-600 hover:border-green-600 hover:translate-x-1 transition duration-200 flex justify-center items-center"
             >
-              <Play className="pr-1"/>
+              <Play className="hidden md:pr-1 md:block"/>
               Get Started
             </Link>
             <Link
               to={"/about"}
-              className="border border-green-600 bg-green-600 shadow-lg text-white font-semibold px-6 py-3 rounded-sm hover:bg-transparent hover:border-white transition duration-200 hover:translate-x-1 "
+              className="border border-green-600 bg-green-600 shadow-lg text-white font-semibold p-2 md:px-6 md:py-3 rounded-sm hover:bg-transparent hover:border-white transition duration-200 hover:translate-x-1 "
             >
               Learn More
             </Link>

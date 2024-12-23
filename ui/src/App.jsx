@@ -7,7 +7,7 @@ import {
 import Layout from "./Layout/Layout";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Login, Signup, Dashboard, NotFound, LandingPage } from "./Pages";
+import { Login, Signup, Dashboard, NotFound, LandingPage, About, ContactSection14 } from "./Pages";
 import { ProtectedRoutes } from "./Routes";
 function App() {
   const router = createBrowserRouter(
@@ -16,6 +16,8 @@ function App() {
         <Route index element={<LandingPage />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/contact" element={<ContactSection14 />}></Route>
         <Route
           path="/dashboard"
           element={
