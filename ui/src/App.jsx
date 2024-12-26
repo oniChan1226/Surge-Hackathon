@@ -4,29 +4,28 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Layout from "./Layout/Layout";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Login, Signup, Dashboard, NotFound, LandingPage, About, ContactSection14 } from "./Pages";
+import { Layout, DashboardLayout } from "./Layout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Signin, Signup, Dashboard, NotFound } from "./Pages";
 import { ProtectedRoutes } from "./Routes";
+import 'typeface-roboto'
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route index element={<LandingPage />}></Route>
+        <Route index element={<Signin />}></Route>
+        {/* <Route index element={<Dashboard />}></Route> */}
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/contact" element={<ContactSection14 />}></Route>
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoutes>
-              <Dashboard />
-            </ProtectedRoutes>
-          }
-        ></Route>
-        {/* <Route path="/user-report-need" element={<ReportNeed />}></Route> */}
+          element={<ProtectedRoutes>
+            <DashboardLayout/>
+          </ProtectedRoutes>}
+        >
+          <Route index element={<Dashboard />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Route>
         <Route path="*" element={<NotFound />}></Route>
       </Route>
     )
@@ -34,8 +33,8 @@ function App() {
 
   return (
     <>
-        <RouterProvider router={router} />
-        <ToastContainer />
+      <RouterProvider router={router} />
+      <ToastContainer />
     </>
   );
 }

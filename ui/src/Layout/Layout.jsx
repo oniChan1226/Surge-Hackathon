@@ -9,10 +9,9 @@ const Layout = () => {
 
   return (
     <>
-      {!noHeaderRoutes.includes(location.pathname) && <Header />}
+      {/* {!noHeaderRoutes.includes(location.pathname) && <Header />} */}
       <Outlet />
-      {/* Uncomment Footer if required */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

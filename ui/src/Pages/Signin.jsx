@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import Signin from '../assets/Signin-bg.png'
+import image from '../assets/Signin-bg.png'
 
 const loginSchema = z.object({
   email: z
@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-300">
-      <div className=" grid grid-cols-1 lg:grid-cols-2 rounded-lg  overflow-hidden w-full max-w-7xl mx-6 ">
+      <div className=" grid grid-cols-1 lg:grid-cols-2 rounded-lg items-center  overflow-hidden w-full max-w-7xl mx-6 ">
         {/* Left Section */}
         <div className="p-8 xl:p-16 bg-white rounded-lg shadow-xl">
           <h2 className="text-2xl md:text-4xl font-semibold text-primary text-center xl:text-6xl">
@@ -110,7 +110,7 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-primary-light hover:bg-primary text-black font-medium py-2 rounded-lg transition-colors duration-200 xl:text-lg"
+              className="w-full bg-primary-light hover:bg-primary text-white font-medium py-2 rounded-lg transition-colors duration-200 xl:text-lg"
             >
               Sign in
             </button>
@@ -129,8 +129,8 @@ const Login = () => {
 
         {/* Right Section */}
         <div className="hidden lg:flex bg-transparent items-center justify-center">
-          <img src={Signin} alt="image" />
-        </div>
+              <img src={image} alt="image" />
+            </div>
       </div>
     </div>
   );

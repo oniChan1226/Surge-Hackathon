@@ -1,78 +1,125 @@
-import { Menu, MapPin, User, HousePlus } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
-
-// gray and green theme
+import React, { useEffect, useRef, useState } from "react";
+import {
+  User,
+  ChevronDown,
+  UserCog,
+  LogOut,
+  RefreshCw,
+  X,
+  Search,
+} from "lucide-react";
+import {user} from "../../RoleConfigs"
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const accountMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if(accountMenuRef.current && !accountMenuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   return (
-    <header className="bg-gradient-to-r bg-slate-800 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo and Navigation */}
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-1">
-              <HousePlus className="text-primary" />
-              <span className="text-xl xl:text-2xl font-bold text-primary font-serif">
-                DRMS
-              </span>
-            </div>
+    <header>
+      <div className="bg-white flex justify-between items-center w-[95%] mx-auto py-2 lg:py-4 xl:py-8 text-dashboardMain-blackish">
+        <div className="left flex justify-center items-center md:space-x-6 space-x-1">
+          <h2 className="text-xl md:text-2xl xl:text-4xl tracking-normal font-bold hidden md:block text-black">
+            <span className="text-dashboardMain-blue">Disaster</span>
+            Relief
+          </h2>
+          <div className="relative group">
+            {/* Accessible Label */}
+            <label
+              htmlFor="search"
+              className="absolute top-[6px] left-8 text-dashboardMain-unhighlighted pointer-events-none group-focus-within:hidden"
+            >
+              Search
+            </label>
 
-            <nav className="hidden md:flex items-center space-x-6">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary font-bold transition-colors xl:text-xl"
-                    : "text-secondary-light hover:text-primary transition-colors font-medium xl:text-xl"
-                }
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary font-bold transition-colors xl:text-xl"
-                    : "text-secondary-light hover:text-primary transition-colors font-medium xl:text-xl"
-                }
-              >
-                About
-              </NavLink>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary font-bold transition-colors xl:text-xl"
-                    : "text-secondary-light hover:text-primary transition-colors font-medium xl:text-xl"
-                }
-              >
-                Contact
-              </NavLink>
-            </nav>
-          </div>
+            {/* Search Input */}
+            <input
+              type="search"
+              name="search"
+              id="search"
+              className="px-2 py-1 w-32 md:w-64 xl:w-72 outline-none border border-dashboardMain-unhighlighted rounded-md focus:border-dashboardMain-blue z-10 bg-dashboardMain-unhighlighted_2"
+              placeholder=""
+            />
 
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-5">
-              <button className="p-2 bg-white/10 rounded-full transition-colors flex space-x-1">
-              <MapPin className="text-primary"/>
-                <span className="text-white font-mono pr-1">Pakistan</span>
-              </button>
-
-              <button className="p-2 hover:bg-white/10 rounded-full transition-colors md:hidden">
-                <Menu className="h-6 w-6 text-white" />
-              </button>
-
-              <Link to={"/login"} className="hidden md:flex items-center gap-2 bg-white/10 group px-4 py-2 rounded-lg transition-colors duration-200 hover:shadow-lg">
-                <User className="h-5 w-5 text-white group-hover:text-primary-light transition-colors" />
-                <span className="text-white font-medium group-hover:text-primary-light transition-colors">
-                  Login
-                </span>
-              </Link>
-            </div>
+            {/* Search Icon */}
+            <Search className="text-dashboardMain-unhighlighted absolute top-[5px] left-1 group-focus-within:hidden z-0" />
           </div>
         </div>
+
+        <div
+          id="userAccount"
+          className="flex justify-center items-center space-x-3 relative"
+        >
+          <div>
+            {/* <User
+              className="text-dashboardMain-blue bg-dashboardMain rounded-full"
+              size={35}
+            /> */}
+            <img src={user.avatar} alt="" className="h-10 md:h-12 xl:h-14 rounded-full bg-dashboardMain object-center"/>
+          </div>
+
+          <div className="flex flex-col items-start">
+            <h5 className="md:text-base xl:text-xl tracking-tighter font-medium">
+              {/* Username */}
+              {user.username}
+            </h5>
+            <h6 className="text-sm xl:text-base tracking-tighter text-dashboardMain-unhighlighted">
+              {/* Role */}
+              {user.role}
+            </h6>
+          </div>
+
+          <button onClick={() => setIsMenuOpen((prev) => !prev)}>
+            {isMenuOpen ? (
+              <X className="border-2 border-dashboardMain rounded-full" />
+            ) : (
+              <ChevronDown className="border-2 border-dashboardMain rounded-full" />
+            )}
+          </button>
+
+          {isMenuOpen ? (
+            <div className="absolute flex flex-col items-start w-[230px] top-[100%] right-0 bg-white shadow-md border border-gray-200 rounded-lg px-6 py-3 space-y-3 "
+            ref={accountMenuRef}>
+              <div className="flex items-center gap-3 w-full cursor-pointer hover:bg-dashboardMain">
+                <UserCog size={25} className="text-dashboardMain-blue" />
+                <div className="text-base xl:text-lg font-medium whitespace-nowrap">
+                  Manage Account
+                </div>
+              </div>
+              <hr className="w-full border-t border-gray-300 " />
+
+              <div className="flex items-center gap-3 w-full cursor-pointer hover:bg-dashboardMain">
+                <RefreshCw size={25} className="text-dashboardMain-purplish" />
+                <div className="text-base xl:text-lg font-medium whitespace-nowrap">
+                  Activity Log
+                </div>
+              </div>
+              <hr className="w-full border-t border-gray-300" />
+
+              <div className="flex items-center gap-3 w-full cursor-pointer hover:bg-dashboardMain">
+                <LogOut size={25} className="text-dashboardMain-pinkish" />
+                <div className="text-base xl:text-lg font-medium whitespace-nowrap">
+                  Log out
+                </div>
+              </div>
+            </div>
+          ) : (
+            null
+          )}
+        </div>
       </div>
+      {/* <hr className="h-[1.5px] bg-dashboardMain-unhighlighted"/> */}
     </header>
   );
 };

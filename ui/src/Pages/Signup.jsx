@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { roleConfigs } from "../RoleConfigs/RoleConfigs";
 import { useNavigate, Link } from "react-router-dom";
-import Signin from "../assets/Signin-bg.png";
+import image from '../assets/Signin-bg.png'
 
 const Signup = () => {
   const {
@@ -59,7 +59,7 @@ const Signup = () => {
       }
 
       return (
-        <div key={index} className="relative mb-6">
+        <div key={index} className="relative mb-2">
           <label className="block text-secondary-dark font-medium xl:text-lg mb-1">
             {field.label}
           </label>
@@ -68,7 +68,7 @@ const Signup = () => {
             name={field.name}
             placeholder={field.placeholder}
             {...register(field.name, validationRules)}
-            className={`w-full px-4 py-2 rounded-md border ${
+            className={`w-full px-1 py-2 rounded-md border ${
               errors[field.name] ? "border-red-500" : "border-gray-300"
             } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent xl:py-3 xl:text-lg`}
           />
@@ -84,18 +84,18 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-slate-300 flex items-center justify-center">
-      <div className=" grid grid-cols-1 lg:grid-cols-2 rounded-lg overflow-hidden w-full max-w-7xl m-6">
+      <div className=" grid grid-cols-1 lg:grid-cols-2 items-center rounded-lg overflow-hidden w-full max-w-7xl m-6">
         {/* Left Section */}
-        <div className="p-8 xl:p-16 bg-white rounded-lg shadow-lg">
+        <div className="p-4 md:py-4 md:px-8 xl:p-16 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl md:text-4xl font-semibold text-primary text-center xl:text-6xl">
             Sign Up
           </h2>
-          <p className="text-center text-secondary-dark mt-2 mb-3 xl:text-xl">
+          <p className="text-center text-secondary-dark my-1 xl:text-xl">
             Create your account by filling in your details.
           </p>
 
-          <div className="mb-6">
-            <label className="block text-secondary-dark font-medium xl:text-lg mb-2">
+          <div className="mb-2">
+            <label className="block text-secondary-dark font-medium xl:text-lg mb-1">
               Select Role
             </label>
             <select
@@ -114,12 +114,12 @@ const Signup = () => {
             </select>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             {renderFormFields()}
             {selectedRole && (
               <button
                 type="submit"
-                className="w-full bg-primary-light hover:bg-primary text-black font-medium py-2 rounded-lg transition-colors duration-200 xl:text-lg"
+                className="w-full bg-primary-light hover:bg-primary text-white font-medium py-2 rounded-lg transition-colors duration-200 xl:text-lg"
               >
                 Sign Up
               </button>
@@ -129,23 +129,18 @@ const Signup = () => {
           <p className="text-center mt-4">
             Already registered?{" "}
             <Link
-              to="/login"
+              to="/"
               className="text-primary font-medium hover:underline"
             >
-              Login
+              Sign in
             </Link>
           </p>
         </div>
 
         {/* Right Section */}
-        {/* Right Section */}
-<div className="hidden lg:flex bg-transparent items-center justify-center">
-  <img
-    src={Signin}
-    alt="image"
-    className="max-w-full max-h-full object-contain"
-  />
-</div>
+        <div className="hidden lg:flex bg-transparent items-center justify-center">
+              <img src={image} alt="image" />
+            </div>
 
       </div>
     </div>
