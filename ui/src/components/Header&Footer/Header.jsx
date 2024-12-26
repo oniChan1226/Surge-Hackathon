@@ -27,8 +27,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header>
-      <div className="bg-white flex justify-between items-center w-[95%] mx-auto py-2 lg:py-4 xl:py-8 text-dashboardMain-blackish">
+    <header className="sticky top-0 bg-white z-50">
+      <div className=" flex justify-between items-center w-[95%] mx-auto py-4 md:py-5 text-dashboardMain-blackish ">
         <div className="left flex justify-center items-center md:space-x-6 space-x-1">
           <h2 className="text-xl md:text-2xl xl:text-4xl tracking-normal font-bold hidden md:block text-black">
             <span className="text-dashboardMain-blue">Disaster</span>

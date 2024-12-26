@@ -18,7 +18,7 @@ const Sidebar = ({ role = "individual" }) => {
   const navItems = navConfig["individual"] || [];
 
   return (
-    <div className="min-h-screen fixed bg-white text-white flex justify-center overflow-hidden">
+    <div className="min-h-screen fixed left-0 bg-white text-white hidden md:flex justify-center overflow-hidden">
       <nav className="px-3 pt-5">
         <ul className="">
           {navItems.map((item, index) => (

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Signin, Signup, Dashboard, NotFound } from "./Pages";
 import { ProtectedRoutes } from "./Routes";
 import 'typeface-roboto'
+import { ReportsTable } from "./components/Dashboard";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,6 +25,7 @@ function App() {
           </ProtectedRoutes>}
         >
           <Route index element={<Dashboard />}></Route>
+          <Route path="individual/reports" element={<ReportsTable />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Route>
         <Route path="*" element={<NotFound />}></Route>
